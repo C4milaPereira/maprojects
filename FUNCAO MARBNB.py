@@ -16,16 +16,37 @@ imoveis = [
         "Status": "Disponível", "id_locador": 2}
 ]
 
+
 def saudacao():
     print("Obrigada por usar nossos serviços! :)")
+
 
 def menu():
     print("MARBNB 🌴🏡 ALUGUEL DE CASAS NA PRAIA")
     print("1 - Cadastrar um imóvel")
-    print("2 - Alugar um imóvel")
+    print("2 - Agendar visita")
+    print("3 - Alugar imóvel")
     print("0 - Sair")
     opcao = int(input("Selecione a opção desejada: "))
     return opcao
+
+
+def alugar_imovel():
+    escolha = int(input("Digite o numero do imóvel qual deseja locar: "))
+    if 1 <= escolha <= len(imoveis):
+        imovel_select = imoveis[escolha - 1]
+        if imovel_select["Status"] == "Disponível":
+            imovel_select["Status"] = "Indisponível"
+            os.system("cls")
+            print(f"Aqui estão os dados do imóvel alugado:")
+            print(
+                f"\nDADOS IMÓVEL: \n{imovel_select['id_locador']}. Endereço: {imovel_select['Localizacao']} \nValor do imóvel: R${imovel_select['Mensal']:.3f}")
+            print("Obrigada pela preferência! :)")
+        else:
+            imovel_select["Status"] == "Indisponivel"
+        print("Desculpe, este imóvel está indisponível.")
+    else:
+        print("Número inválido, tente novamente.")
 
 
 def cadastroimovel():
@@ -68,23 +89,18 @@ def listar_imoveis():
             f"ID: {imovel['id_locador']}. Localização: {imovel['Localizacao']}, Mensal: {imovel['Mensal']}, Status: {imovel['Status']}")
 
 
-def alugarimovel():
+def visitar_imovel():
     escolha = int(input("Digite o numero do imóvel qual deseja visitar: "))
     if 1 <= escolha <= len(imoveis):
         imovel_select = imoveis[escolha - 1]
-        if imovel_select["Status"] == "Disponível":
-            imovel_select["Status"] = "Indisponível"
-            os.system("cls")
-            print(f"Aqui estão os dados para agendar sua visita:")
+        print(f"Aqui estão os dados para agendar sua visita:")
+        print(
+            f"\nDADOS IMÓVEL: \n{imovel_select['id_locador']}. Endereço: {imovel_select['Localizacao']} \nValor do imóvel: R${imovel_select['Mensal']:.3f}")
+        locador = next(
+            (locador for locador in locadores if locador['id'] == imovel_select['id_locador']), None)
+        if locador:
             print(
-                f"\nDADOS IMÓVEL: \n{imovel_select['id_locador']}. Endereço: {imovel_select['Localizacao']} \nValor do imóvel: R${imovel_select['Mensal']:.3f}")
-            locador = next(
-                (locador for locador in locadores if locador['id'] == imovel_select['id_locador']), None)
-            if locador:
-                print(
-                    f"\nCONTATO DO LOCADOR: \nNome: {locador['Nome']} \nTelefone: {locador['Contato']} \nEmail: {locador['Email']}\n")
-                print("Obrigada pela preferência! :)")
-        else:
-            print("Desculpe, este imóvel está indisponível.")
+                f"\nCONTATO DO LOCADOR: \nNome: {locador['Nome']} \nTelefone: {locador['Contato']} \nEmail: {locador['Email']}\n")
+            print("Obrigada pela preferência! :)")
     else:
         print("Número inválido, tente novamente.")
